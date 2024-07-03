@@ -2,6 +2,11 @@ name: CI
 
 on:
   workflow_dispatch:
+    inputs:
+      repo:
+        required: true
+      branch:
+        required: true
 
 jobs:
   build:
@@ -14,7 +19,8 @@ jobs:
       - name: Checkout docs repo
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.repository.full_name }}
+          repository: ${{ github.event.inputs.repo }}
+          ref: ${{ github.event.inputs.branch }}
           path: docs
           fetch-depth: 1
       - run: |
