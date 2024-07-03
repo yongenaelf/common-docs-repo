@@ -6,5 +6,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      USER: ${{ github.event.repository.owner }}
+      REPO: ${{ github.event.repository.name }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Checkout docs repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.repository.full_name }}
+          path: docs
+          fetch-depth: 1
+      - run: |
+          cp -r docs/.config/static/* static
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
