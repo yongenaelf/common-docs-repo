@@ -6,9 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      USER: ${{ github.event.repository.owner }}
-      REPO: ${{ github.event.repository.name }}
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
